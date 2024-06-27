@@ -40,3 +40,11 @@ takeaways
 
 here we use dp[ind][curr+1000] as curr can be from -1000 to 1000 and we need to strore in positive index so we r doing ind+1000;
 and we need the size as 2001.
+
+
+
+
+
+PATTERNS- https://leetcode.com/discuss/general-discussion/458695/dynamic-programming-patterns
+
+
