@@ -48,3 +48,99 @@ and we need the size as 2001.
 PATTERNS- https://leetcode.com/discuss/general-discussion/458695/dynamic-programming-patterns
 
 
+1- minimum maximum path to reach a target
+
+Approach- choose min/max path among all possible paths and then add current state
+
+e.g-> cost[ind] + min(case1, case2, case3...);
+      curr state      paths
+
+
+example-> (min cost climbing, lc-746)
+
+                                        class Solution {
+                                        public:
+                                            vector<int> dp;
+                                            int solve(int ind, vector<int>& cost)
+                                            {  
+                                                if( ind >= cost.size())
+                                                return 0;
+
+                                                if(dp[ind] != -1)
+                                                return dp[ind];
+
+                                                int one = solve(ind+1,cost); 
+                                                int two = solve(ind+2,cost);
+
+                                                return dp[ind] = cost[ind] + min(one,two);
+                                            }
+                                            int minCostClimbingStairs(vector<int>& cost) {
+                                                dp = vector<int> (cost.size()+10, -1);
+
+                                                return min(solve(0,cost), solve(1,cost));   } };
+
+
+Other problems - min path sum (lc-64)
+
+
+one of the most imp question on this pattern (can be called a  different pattern- i.e coin change pattern)
+
+                                            class Solution {
+                                            public:
+                                                vector<int> dp;
+                                                int solve(int ind, vector<int> &coins, int amount)
+                                                {
+                                                    if(amount < 0)
+                                                    return INT_MAX;
+
+                                                    int mini = INT_MAX;
+
+                                                    // both above are int_max it we will check it later
+                                                    // i.e we are giving even amount<0 as INT_MAX and not -1;
+                                                    // or else we will need to handle both
+                                                    // because solutions cannot have INT_MAX and -1 in comparisions
+
+                                                    if(amount == 0)
+                                                    return 0;
+
+                                                    if(dp[amount] != -1) 
+                                                    return dp[amount];
+
+
+
+                                                    for(int i=0; i<coins.size();i++)
+                                                    {
+                                                
+                                                        if(coins[i] <= amount)
+                                                        {
+                                                        int res = solve(i, coins , amount - coins[i] ); 
+
+                                                        if(res != INT_MAX)
+                                                        mini = min(mini,res+1);
+
+                                                        //if res is int_max we can ignore.
+
+                                                        }
+                                                    }
+
+                                                return dp[amount] = mini;
+
+                                                }
+
+                                                int coinChange(vector<int>& coins, int amount) {
+                                                    
+                                                    dp = vector<int> (amount+1,-1);
+                                                    int ans = solve(0,coins,amount);
+
+                                                    // later here we are giving -1, if int_max i.e cannot equate to amount
+                                                    if(ans == INT_MAX)
+                                                    return -1;
+                                                    return ans;
+                                                }
+                                            };
+
+
+
+
+
+
